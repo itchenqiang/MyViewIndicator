@@ -23,6 +23,7 @@ import com.chen.www.myviewindicator.R;
 import java.util.List;
 
 /**
+ * ViewIndicator.class
  * Created by ChenQiang on 2016/4/14.
  */
 public class ViewIndicator extends LinearLayout {
@@ -42,7 +43,7 @@ public class ViewIndicator extends LinearLayout {
      * 偏移量
      */
     private int mTranslateX = 0;
-    private final float RATIO_WIDETH = 1 / 6f;
+    private static final float RATIO_WIDETH = 1 / 6f;
     private Paint mPaint;
     private Path mPath;
     /**
@@ -52,8 +53,7 @@ public class ViewIndicator extends LinearLayout {
     /**
      * 默认可见tab
      */
-    private final int DEFAULT_VISIBLE_TAB = 3;
-    private List<String> mTitles;
+    private static final int DEFAULT_VISIBLE_TAB = 3;
     private static final int COLOR_TEXT_NORMAL = 0x77000000;
     private static final int COLOR_TEXT_HIGHTLIGHT = 0xffffffff;
 
@@ -110,7 +110,7 @@ public class ViewIndicator extends LinearLayout {
     private void initTrangle() {
         mPath.moveTo(0, 0);
         mPath.lineTo(mTrangleWideth, 0);
-        mPath.lineTo(mTrangleWideth / 2, -mTrangleHeight + 2);
+        mPath.lineTo(mTrangleWideth / 2, -mTrangleHeight);
         mPath.close();
     }
 
@@ -140,7 +140,7 @@ public class ViewIndicator extends LinearLayout {
             View view = getChildAt(i);
             LinearLayout.LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
             layoutParams.weight = 0;
-            layoutParams.width = getScreenWideth() / mVisibleTab;
+            layoutParams.width = getScreenWidth() / mVisibleTab;
             view.setLayoutParams(layoutParams);
         }
     }
@@ -150,7 +150,7 @@ public class ViewIndicator extends LinearLayout {
      *
      * @return 屏幕宽度
      */
-    public int getScreenWideth() {
+    public int getScreenWidth() {
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
@@ -174,7 +174,6 @@ public class ViewIndicator extends LinearLayout {
     public void setTabTitle(List<String> titles) {
         if (titles != null && titles.size() > 0) {
             this.removeAllViews();
-            mTitles = titles;
             for (String title : titles) {
                 addView(generalView(title));
             }
@@ -185,12 +184,12 @@ public class ViewIndicator extends LinearLayout {
      * 根据title创建tab
      *
      * @param title 标题
-     * @return
+     * @return view
      */
     private View generalView(String title) {
         TextView textView = new TextView(getContext());
         LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        params.width = getScreenWideth() / mVisibleTab;
+        params.width = getScreenWidth() / mVisibleTab;
         params.gravity = Gravity.CENTER;
         textView.setLayoutParams(params);
         textView.setGravity(Gravity.CENTER);
@@ -214,12 +213,10 @@ public class ViewIndicator extends LinearLayout {
     /**
      * 给viewpager设置addOnPageChangeListener
      *
-     * @param listener
+     * @param listener listener
      */
     public void addOnPageChangeListener(OnPageChangeListener listener) {
-        if (listener != null) {
-            mListener = listener;
-        }
+        mListener = listener;
     }
 
     /**
@@ -260,7 +257,7 @@ public class ViewIndicator extends LinearLayout {
     /**
      * 设置tab点击事件
      *
-     * @param viewpager
+     * @param viewpager viewpager
      */
     private void setTabClickListener(final ViewPager viewpager) {
         int childCount = getChildCount();

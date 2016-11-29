@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewIndicator viewindicator;
     private ViewPager viewpager;
-    private ArrayList<VpSimpleFragment> mFragments = new ArrayList<VpSimpleFragment>();
+    private ArrayList<VpSimpleFragment> mFragments = new ArrayList<>();
     private PagerAdapter mAdapter;
 
     @TargetApi(Build.VERSION_CODES.M)
